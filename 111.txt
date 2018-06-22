@@ -1,0 +1,29 @@
+此项目需要与产线上的上位机进行通信，因此需要在远程服务器上以微服务的形式部署算法，算法具体部署在10.101.170.235:60016服务器上，工作代码位于/home/huawei/Desktop/KE中，部分测试代码位于/home/Huawei/myfile/code_python/KE/CV_test中，两个目录下的代码和文件夹说明如下：
+目录/home/huawei/Desktop/KE：
+mount1.py:在python中执行通过SAMBA挂载远端共享文件夹到本地工作目录的指令
+PythonServices.py：测试flask框架的代码（颜工团队提供测试使用），通过绑定特定端口（8080），通过docker映射到10.101.170.235服务器的7016端口，可以通过远程终端调用其服务。此代码一般用于测试服务器的网络连通性。
+PyServer.py，PyServer2.py，AOI_Server：同样用于测试服务器的网络连通及前后端通信的简单逻辑。
+AOI_detection_CNN.py：CNN模型的训练以及测试代码，读取某一文件路径下的OK和NG的文件下，并划分训练集和测试集，训练相应的CNN模型。
+AOI_detection_CNN3.py：CNN模型的训练以及测试代码，对训练集和测试集的选取增加随机性选，以增强模型的泛化性能。
+AOI_detection_001.py:用于读取共享文件夹的一张图片，并调用存储在当前路径下的CNN模型进行检测，返回结果（0 1分别表示正负）。
+CNN_ModelRead.py:存储CNN模型的结构信息，通过调用该文件的test_model（）函数，可以用CNN检查图片的正负。
+文件夹：AOIDetection_da：存储用于训练和检测的正负样本数据集。
+文件夹：AOIDetection_testimage:存储几张挑选出来用于测试的正负样本。
+文件夹：model_CNN：存储训练好的CNN模型，并通过相应的py文件调用。
+目录/home/Huawei/myfile/code_python/KE/CV_test：
+AOI_detection.py:使用模板匹配方法匹配从标准图像中抽取的只包含目标区域的模板，实验结果表明无论是正常样本还是异常样本，都能很好的匹配到目标区域。
+AOI_detection_list.py：使用模板匹配对正负样本的目标区域进行定位。
+AOI_detection_CNN.py, AOI_detection_CNN2.py, AOI_detection_CNN3.py，功能与上面介绍差不多。
+AOI_detection_CNN4.py用于对板上同一种类的元器件进行批处理，即对采集的数据进行一定程序的预处理，包括旋转，剪裁中心区域，分batch导入CNN网络检测等步骤。
+AOI_detection_DA:通过窗口进行对原始图片（70*45）进行剪裁来进行数据增强，最终得到多个目标位置的图片（64*32），增加了正负样本数量与多样性。
+AOI_detection_split.py：用于测试数据集的划分。
+文件夹：AOIDetection_pro，存储原始没有增强的正负样本数据集（198,18）
+文件夹：AOIDetection_da，数据增强后得到的正负样本（3960,360）
+文件夹：AOIDetection_da2，随机划分的测试集与训练集，里面均含有正负样本，后面没有用到
+文件夹：AOIDetection0612，对服务器上采集的数据进行筛选，挑选出SC0402-BGA种类的数据待测试。
+文件夹：OKDetection0614，通过CNN4文件的网络测试，测试结果为正样本的数据集。
+文件夹：NGDetection0614，通过CNN4文件的网络测试，测试结果为负样本的数据集。目前误报率为10%左右，偏高，与前期训练样本的单一性，测试样本定位不正确有一定关系，后期可对模型中的模型参数进行调整，包括dropout参数，softmax概率设置等。
+文件夹：OKDetection*，NGDetection*，作用与以上文件一致。
+
+
+
