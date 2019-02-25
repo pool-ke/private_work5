@@ -1,0 +1,25 @@
+代码工程目录
+位于docker50006下，工程目录为/home/Huawei/20190131
+数据集工程目录
+位于docker50006下，工程目录为/home/Huawei/CAE_data_testing/
+由于代码设置，在每一个分文件夹下还需设置一个OK文件，用于存放无缺陷的正样本供训练。
+Tfrecord文件存放目录
+TFrecord一个压缩保存原始训练数据的文件，在读取tfrecord文件时需要知道训练图片的大小，目录为：/home/Huawei/CV_20190131
+训练模型文件保存目录
+用于保存模型训练后的ckpt模型文件，具体为/home/Huawei/CV_20190131
+
+主要运行文件介绍：
+Test_redimage.py 读取存放数据集的目录，编辑图片尺寸大小，制作tfrecord文件，设置参数包括图片高度和图片宽度等尺寸。
+CV_test/main_train.py 训练模型文件，训练时候需要以下参数：
+参数包括：train_model_path:训练后模型保存路径
+		  Tfrecord_path：导入训练集tfrecord路径
+		  Image_height：图片高度
+		  Image_width：图片宽度
+		  Train_epochs：训练最大迭代次数
+Detection_model01.py 可视化进行缺陷定位与检测
+依赖文件modelread_adaptive.py:该文件用于读取训练模型，直接计算图片经过CAE生成的模型，每次导入模型时候同样需要设置一下参数：
+Image_height：图片高度
+Image_width：图片宽度
+train_model_path:导入模型所在的路径
+
+运行文件可得到可视化界面：导入测试文件，在导入测试文件的过程中也会调用gpu计算图像经过卷积自编码后生成的模板图像，鼠标单击左上角可以观察生成模板效果。点击listprocess可以生成全部缺陷检测与定位后的图片。点击左下角的图片预览窗口，可以查找三个图片（测试图片，模板，缺陷定位效果）的展示。
